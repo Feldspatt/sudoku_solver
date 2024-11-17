@@ -1,4 +1,6 @@
-export function narrowUnique(cluster: number[][]){
+import {stats} from "../print/stats.ts";
+
+export function narrowByDetermined(cluster: number[][]){
     let change = false
     const uniques = cluster.filter(cell => cell.length === 1)
 
@@ -7,9 +9,9 @@ export function narrowUnique(cluster: number[][]){
             if(cell === unique) continue
             const index = cell.indexOf(unique[0])
             if(index !== -1){
-                console.log(`removing ${unique[0]} from ${cell}`)
                 cell.splice(index, 1)
                 change = true
+                stats.narrowedBasedOnDeterminedValues++
             }
         }
     }

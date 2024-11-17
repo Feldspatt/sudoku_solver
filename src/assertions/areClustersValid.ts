@@ -1,7 +1,7 @@
-import {getSudoku} from "./getSudoku.ts";
+import {getSudokuValues} from "../clusters/getSudokuValues.ts";
 
-export function isSudokuValid(clusters: number[][][]){
-    const sudoku = getSudoku(clusters)
+export function AreClustersValid(clusters: number[][][]){
+    const sudoku = getSudokuValues(clusters)
 
     for (const cluster of clusters){
         const uniques = cluster.filter(cell => cell.length === 1)

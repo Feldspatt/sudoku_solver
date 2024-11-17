@@ -1,22 +1,40 @@
-import {buildSudoku} from "./buildSudoku.ts";
-import {checkisRawSudokuValid} from "./checkisRawSudokuValid.ts";
-import {sudokuDifficile} from "../sample/sudokuDifficile.ts";
-import {printSudoku} from "./printSudoku.ts";
+import {buildClusters} from "./clusters/buildClusters.ts";
+import {isRawSudokuValid} from "./assertions/isRawSudokuValid.ts";
+import {sudokuToString} from "./print/sudokuToString.ts";
 import {solve} from "./solve.ts";
-import {getSudoku} from "./getSudoku.ts";
+import {getSudokuValues} from "./clusters/getSudokuValues.ts";
+import {stats} from "./print/stats.ts";
+import {AreClustersValid} from "./assertions/areClustersValid.ts";
+import {statsToString} from "./print/statsToString.ts";
 
-function main(raw: (number|null)[]){
+export function main(raw: (number|null)[]): number[][] {
     const startTime = Date.now()
-    checkisRawSudokuValid(raw)
-    const clusters = buildSudoku(raw)
+    isRawSudokuValid(raw)
+    const clusters = buildClusters(raw)
 
-    printSudoku(getSudoku(clusters))
+    console.log(`\nSolving following sudoku:
+        ${sudokuToString(getSudokuValues(clusters))}
+    `)
+
     const solvedClusters = solve(clusters)
 
-    console.log('\nelapsed time: ' + (Date.now() - startTime) + 'ms')
-    if(solvedClusters) {
-        printSudoku(getSudoku(solvedClusters))
+    if(!solvedClusters) {
+        console.error('No solution was found for this sudoku!')
+        stats.state = 'impossible'
     }
-}
+    else if(!AreClustersValid(clusters)) {
+        console.error('Solved sudoku is not valid!')
+        stats.state = 'error'
+    }
+    else {
+        console.info('Sudoku solved!')
+        stats.state = 'done'
+    }
 
-main(sudokuDifficile)
+    stats.timeSpent = Date.now() - startTime
+    if(solvedClusters) {
+        const sudoku = getSudokuValues(solvedClusters)
+        console.log(`${sudokuToString(sudoku)}\n${statsToString(stats)}`)
+        return sudoku
+    } else throw("Could not solve sudoku")
+}

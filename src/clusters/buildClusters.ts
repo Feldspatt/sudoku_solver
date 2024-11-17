@@ -1,10 +1,10 @@
-import {getCol} from "./grid/getCol.ts";
-import {getRow} from "./grid/getRow.ts";
-import {getSquare} from "./grid/getSquare.ts";
+import {getCol} from "../coordinates/getCol.ts";
+import {getRow} from "../coordinates/getRow.ts";
+import {getSquare} from "../coordinates/getSquare.ts";
 import {digits} from "./digits.ts";
 import {makeCluster} from "./makeCluster.ts";
 
-export function buildSudoku(raw: (number | null)[]) {
+export function buildClusters(raw: (number | null)[]) {
     const rows: number[][][] = makeCluster()
     const cols: number[][][] = makeCluster()
     const squares: number[][][] = makeCluster()

@@ -1,4 +1,4 @@
-export const sudokuMoyen = [
+export const sudokuMedium1 = [
     null, null, 4, 8, 1, 2, 5, null, null,
     null, 7, null, null, null, null, null, 1, null,
     5, null, null, null, null, null, null, null, 3,
